@@ -1,0 +1,243 @@
+{% extends 'index.html' %}
+{% load humanize %}
+{% block tablecontent %}
+<style>
+
+	#theadRow > th > span {margin-right:2em;display:block;}
+
+	.hideElement {
+		display:none;
+	}
+
+	input.datepicker {
+		width:7em;
+	}
+
+	div.dateControlBlock {
+		float:right;
+	}
+
+	#endBlock {
+		height:5ex;
+	}
+
+</style>
+<div style="float:right;margin-bottom:10px;">
+  <i class="fa fa-calendar" >
+
+  </i><button  type="button" id="date_range" class="btn btn-warning btn-sm">Date Filter</button>
+</div>
+<select id="filter">
+		<option value="Select">Select Customer</option>
+	  {% for customer in customers %}
+						{% if not customer.is_staff %}
+    <option value="{{ customer.company }}">{{ customer.company }}</option>
+						{% endif %}
+		{% endfor %}
+</select>
+
+<table id="orderTable" class="ordertable" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+								<th>Customer</th>
+                <th>Reference</th>
+								<th>Amount</th>
+                <th>Status</th>
+
+
+
+            </tr>
+        </thead>
+        <tfoot>
+         <tr>
+             <th></th>
+					   <th></th>
+             <th></th>
+             <th></th>
+             <th ></th>
+
+         </tr>
+     </tfoot>
+
+    </table>
+
+
+
+
+<script>
+
+
+
+
+  $(document).ready(function() {
+
+    var table =  $('#orderTable').DataTable( {
+           "processing": true,
+
+           "ajax":{
+                "processing": true,
+                "url": "{% url 'orders:all_order_reports' %}",
+                "dataSrc":"",
+
+           },
+
+           "columns": [
+                    {
+										"data": "created_on" ,
+										/*
+										"render": function (data) {
+												var date = new Date(data);
+												var month = date.getMonth() + 1;
+												var create_on =+ date.getFullYear() + "-" + (month.length > 1 ? month : month) + "-" + date.getDate() ;
+												console.log(create_on);
+												var final_date = moment(create_on,"MM-DD-YYYY")
+
+												return final_date.toString()
+										},
+										*/
+
+										},
+									  { "data": "customer" },
+                    { "data": "order_number" },
+
+                    {
+                      "data": "total",
+                      render: $.fn.dataTable.render.number( ',', '.', 2, 'Ksh ' ),
+                    },
+										{
+											"data": "payment_status",
+
+
+										 },
+
+                ],
+
+
+
+             dom: 'Bfrtip',
+              buttons: [
+                  'excel', 'pdf','print'
+              ],
+          // Display sum on every page and grand total
+              "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        // Total over all pages
+                        total = api
+                            .column(3)
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column(3 ).footer() ).html(
+                            'Ksh '+pageTotal.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                        );
+
+                        $( api.column( 0 ).footer() ).html(
+                        'Balance' + ' Ksh '+ total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                        );
+
+
+
+                     }//End of footer callback
+
+          } );//END of the data table
+
+			$("#filter").on('change', function() {
+		    //filter by selected value on second column
+		    table.column(1).search($(this).val()).draw();
+		});
+
+
+// Date range script - Start of the sscript
+$("#date_range").daterangepicker({
+	autoUpdateInput: false,
+	locale: {
+		"cancelLabel": "Clear",
+	},
+	  format: 'DD/MM/YYYY',
+    startDate: moment(),
+    endDate: moment()
+});
+
+$("#date_range").on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+	     table.draw();
+});
+
+$("#date_range").on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+	    table.draw();
+});
+// Date range script - END of the script
+
+$.fn.dataTableExt.afnFiltering.push(
+      function( oSettings, aData, iDataIndex ) {
+
+      	var grab_daterange = $("#date_range").val();
+      	var give_results_daterange = grab_daterange.split(" to ");
+          var filterstart = give_results_daterange[0];
+          var filterend = give_results_daterange[1];
+          var iStartDateCol = 0; //using column 2 in this instance
+          var iEndDateCol = 0;
+          var tabledatestart = aData[iStartDateCol];
+          var tabledateend= aData[iEndDateCol];
+
+          if ( !filterstart && !filterend )
+          {
+              return true;
+          }
+          else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && filterend === "")
+          {
+              return true;
+          }
+          else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isAfter(tabledatestart)) && filterstart === "")
+          {
+              return true;
+          }
+          else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && (moment(filterend).isSame(tabledateend) || moment(filterend).isAfter(tabledateend)))
+          {
+              return true;
+          }
+          return false;
+}
+);
+
+
+
+
+
+
+
+
+
+    } );
+
+
+
+</script>
+
+
+
+
+
+{% endblock %}

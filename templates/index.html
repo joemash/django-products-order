@@ -1,0 +1,273 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Gaea|Foods</title>
+
+   <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+   <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+   <link rel="stylesheet" href="{% static 'css/owl.transitions.css' %}">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+
+  <link href="{% static 'css/jquery.dataTables.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/buttons.dataTables.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/daterangepicker.css' %}" rel="stylesheet">
+  <link href="{% static 'css/toastr.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles1.css' %}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/moment.min.js' %}"></script>
+    <script src="{% static 'js/chart.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+
+</head>
+{% block topcontent %}
+<body>
+  <div class="header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-1" >
+
+           <div class="logo">
+
+
+            <a href="{% url 'index_view'  %}"><img  src="{% static 'images/gaealogo.png' %}" style="width:80px; height:auto;"  alt="Gaea Foods" /></a>
+           </div>
+
+
+         </div>
+
+         <div class="col-xs-11">
+           <!-- Navigation -->
+   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+       <div class="container">
+           <!-- Brand and toggle get grouped for better mobile display -->
+           <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+               </button>
+
+           </div>
+           <!-- Collect the nav links, forms, and other content for toggling -->
+           <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+             <ul class="nav navbar-nav ">
+                   <li class="dropdown">
+                  <a href="{% url 'index_view'  %}" class="dropdown-toggle" data-toggle="dropdown">Home<b class="caret"></b></a>
+                     <ul class="dropdown-menu" role="menu">
+                          <li><a href="{% url 'mission' %}">Mission</a></li>
+                          <li><a href="{% url 'vision' %}">Vision</a></li>
+                          <li><a href="{% url 'values' %}">Values</a></li>
+                     </ul>
+
+
+                   </li>
+
+                  <li><a href="{% url 'about' %}">About</a></li>
+                   <li><a href="{% url 'products' %}">Products</a></li>
+                    <li><a href="{% url 'recipe'  %}">Recipe</a></a></li>
+                   <!--<li><a href="">About</a></li>-->
+                   <li><a href="{%  url 'contact' %}">Contact</a></li>
+                    {% if request.user.is_authenticated %}
+                    <!--<li><a href="">{{request.user}}</a></li>-->
+                    <li><a href="{% url 'user_orders' %}">MyOrders</a></li>
+                    {% endif %}
+
+
+                </ul>
+           </div>
+           <!-- /.navbar-collapse -->
+       </div>
+       <!-- /.container -->
+   </nav>
+
+
+
+         </div><!--End of col-xs-11-->
+
+      </div>
+   </div>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    {% block content %}
+  <div class="col-md-3">
+    <div class="sidebar content-box" style="display: block;">
+            <ul class="nav" >
+                <!-- Main menu -->
+                {% if request.user.is_staff %}
+                    <li class="current"><a href="{% url 'dashboardview'  %}" style="color:green;"><i class="fa fa-bar-chart-o"></i> Chart Reports
+                     </a>
+                    </li>
+              {% endif %}
+
+                    {% if not request.user.is_staff %}
+                    <li><a href="{% url 'orders:create_order' %}" style="color:green;">
+                      <i class="fa fa-hand-o-right" style="color:green;"></i>Place Order
+                     </a>
+                    </li>
+                    {% endif %}
+
+
+                <li><a href="{% url 'user_orders' %}" style="color:green;"><i class="fa fa-bitbucket" ></i>
+
+			  {% if request.user.is_staff %}Customer Orders {% else %} MyOrders {% endif %}
+
+                  <span class="badge" >{{order_count}}</span>
+                 </a>
+                </li>
+
+		{% if not request.user.is_staff %}
+                <li>
+                    <a href="{% url 'orders:order_reports' %}">
+                     <i class="fa fa-question" style="color:green;"></i> <span style="color:green;">Enquiries</span>
+
+                </a>
+               </li>
+		 {% endif %}
+
+
+
+
+
+		{% if request.user.is_staff %}
+                 <li class="current"><a href="{% url 'customerprices' %}" style="color:green;"><i class="fa fa-money"></i>Customer Prices
+                  </a>
+                 </li>
+                 <li class="current"><a href="{% url 'allproducts' %}" style="color:green;"><i class="fa fa-leaf"></i>Products
+                  </a>
+                 </li>
+           {% endif %}
+
+           {% if request.user.is_staff %}
+      		 <li>
+                          <a href="{% url 'payments_internal:payment_allocation'  %}">
+                           <i class="fa fa-question" style="color:green;"></i> <span style="color:green;">Payment Allocation</span>
+
+                      </a>
+                     </li>
+      		  {% endif %}
+
+
+                  <li>
+                    <a href="{% url 'accounts:change_password' %}">
+                     <i class="fa fa-user" style="color:green;"></i> <span style="color:green;">Change Password</span>
+
+                </a>
+               </li>
+
+
+              <li>
+                  <a href="{% url 'accounts:accounts_logout' %}">
+                   <i class="fa fa-lock" style="color:green;"></i> <span style="color:green;">Logout</span>
+
+              </a>
+             </li>
+
+            </ul>
+         </div>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          {% if not request.user.is_staff %} {{request.user.company}} Orders
+                {% else %}
+
+		  Welcome {{ request.user.last_name }}
+
+
+                {% endif  %}
+        </div>
+        <div class="panel-body">
+          {%  block tablecontent  %}
+
+
+            {% if request.user.is_staff %}
+              {% block chart_code %}
+
+              {% endblock %}
+
+            {% endif %}
+
+
+
+
+            {%  endblock %}
+
+
+
+
+        </div>
+      </div>
+
+  </div>
+
+{%  endblock %}
+</div>
+
+
+</div>
+
+
+      <footer>
+           <div class="container">
+
+              <div class="copy text-center">
+                 Copyright 2017 <a href='#'></a>
+              </div>
+
+           </div>
+        </footer>
+  {%  endblock %}
+    <!-- Bootstrap Core JavaScript -->
+
+
+   <script src="{% static 'js/django.csrf.js'  %}">  </script>
+   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+   <script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+   <script src="{% static 'js/buttons.flash.min.js' %}"></script>
+   <script src="{% static 'js/jszip.min.js' %}"></script>
+   <script src="{% static 'js/pdfmake.min.js' %}"></script>
+   <script src="{% static 'js/vfs_fonts.js' %}"></script>
+   <script src="{% static 'js/buttons.html5.min.js' %}"></script>
+   <script src="{% static 'js/buttons.print.min.js' %}"></script>
+   <script src="{% static 'js/daterangepicker.js' %}"></script>
+   <script src="{% static 'js/toastr.min.js' %}"></script>
+  <!-- <script src="{% static 'js/wosw.min.js' %}"></script>-->
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+
+
+</body>
+
+</html>

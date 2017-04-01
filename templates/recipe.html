@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+    <!-- Intro Content -->
+    <div class="row">
+
+
+        <div class="col-xs-12 text-center">
+            <h4><b>How To Prepare Chips</b></h4>
+                {% for recipe in recipe %}
+                <p>
+                  {{recipe.text|safe}}
+                </p>
+                {% endfor %}
+           <hr>
+        </div>
+    </div>
+    <!-- /.row -->
+
+  </div><!-- /.jumbotron -->
+  </div>  <!-- /.container -->
+
+{% endblock %}

@@ -1,0 +1,15 @@
+<h3>Dear {{ user.last_name }}</h3>
+<p>
+    Thank you for registering an account with Gaea Foods:
+    Click the link below to activate your registration
+</p>
+<p>
+    <a href="http://{{ DOMAIN }}{% url 'accounts:activate_account' user.id user.verify_code %}">http://{{ DOMAIN }}{% url 'accounts:activate_account' user.id user.reset_code %}</a>
+    <br/><br/>
+    Please disregard this email if you have not tried to register with  <a href="http://{{ DOMAIN }}">{{ SITE_NAME }}</a>
+</p>
+<p>
+    Thanks,
+    <br />
+    <a href="http://{{ DOMAIN }}">{{ SITE_NAME }}</a>
+</p>

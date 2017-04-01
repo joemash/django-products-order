@@ -1,0 +1,174 @@
+{% extends 'index.html' %}
+
+
+
+
+{% block chart_code %}
+
+ <div class="row">
+    <h4 style="margin-left:250px;margin-bottom:50px;">Customer Trends </h4>
+    <div class="col-md-6">
+      <canvas id="areaChart" style="height:500px;width:500px;"></canvas>
+    </div>
+
+    <div class="col-md-6">
+      <canvas id="barChart" style="height:500px;width:500px;"></canvas>
+    </div>
+
+
+ </div>
+
+
+
+
+
+
+<script>
+
+$(document).ready(function () {
+
+
+  $(function () {
+
+    $.ajax({
+      type: "GET",
+      url: "/dashboard/",
+      success: function(data) {
+        mydata = JSON.parse(data);
+        //console.log(mydata);
+        user = mydata[0].fields['company'];
+        //console.log(user);
+        var sums = {};
+        var customers = [];
+        var amount = [];
+        for (i = 0; i < mydata.length; i++){
+            obj =mydata[i];
+            //.log(obj);
+            if (!sums[obj.fields['created_by']]) {
+                sums[obj.fields['created_by']] = 0;
+            }
+            sums[obj.fields['created_by']] += +obj.fields['total'];
+        }
+
+        for(var i in sums){
+            amount.push(sums[i])
+            customers.push(i)
+        }
+
+        // Get context with jQuery - using jQuery's .get() method.
+        var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+        // This will get the first returned node in the jQuery collection.
+
+
+
+        var areaChart = new Chart(areaChartCanvas);
+        var areaChartData = {
+          labels: customers,
+          datasets: [
+            {
+              label: 'amount',
+              fillColor : "orange",
+  			      strokeColor : "green",
+  			      pointStrokeColor : "#9DB86D",
+
+
+              data:amount
+            },
+
+          ]
+        };
+
+        var areaChartOptions = {
+                //Boolean - If we should show the scale at all
+                showScale: true,
+                //Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: false,
+                //String - Colour of the grid lines
+                scaleGridLineColor: "orange",
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+                //Boolean - Whether to show horizontal lines (except X axis)
+                scaleShowHorizontalLines: true,
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: true,
+                //Boolean - Whether the line is curved between points
+                bezierCurve: true,
+                //Number - Tension of the bezier curve between points
+                bezierCurveTension: 0.8,
+                //Boolean - Whether to show a dot for each point
+                pointDot: true,
+                //Number - Radius of each point dot in pixels
+                pointDotRadius: 4,
+                //Number - Pixel width of point dot stroke
+                pointDotStrokeWidth: 1,
+                //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+                pointHitDetectionRadius: 20,
+                //Boolean - Whether to show a stroke for datasets
+                datasetStroke: true,
+                //Number - Pixel width of dataset stroke
+                datasetStrokeWidth: 1,
+                //Boolean - Whether to fill the dataset with a color
+                datasetFill: true,
+                //String - A legend template
+
+                //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: true,
+                //Boolean - whether to make the chart responsive to window resizing
+                responsive: true
+              };
+
+           var lineChartOptions = areaChartOptions;
+           lineChartOptions.datasetFill = false;
+           areaChart.Line(areaChartData,lineChartOptions);
+
+
+           //bar graph
+           var barChartCanvas = $("#barChart").get(0).getContext("2d");
+           var barChart = new Chart(barChartCanvas);
+           var barChartData = areaChartData;
+           var barChartOptions = {
+           //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+           scaleBeginAtZero: true,
+           //Boolean - Whether grid lines are shown across the chart
+           scaleShowGridLines: true,
+           //String - Colour of the grid lines
+           scaleGridLineColor: "rgba(0,0,0,.05)",
+           //Number - Width of the grid lines
+           scaleGridLineWidth: 1,
+           //Boolean - Whether to show horizontal lines (except X axis)
+           scaleShowHorizontalLines: false,
+           //Boolean - Whether to show vertical lines (except Y axis)
+           scaleShowVerticalLines: true,
+           //Boolean - If there is a stroke on each bar
+           barShowStroke: true,
+           //Number - Pixel width of the bar stroke
+           barStrokeWidth: 2,
+           //Number - Spacing between each of the X value sets
+           barValueSpacing: 5,
+           //Number - Spacing between data sets within X values
+           barDatasetSpacing: 1,
+           //String - A legend template
+
+           //Boolean - whether to make the chart responsive
+           responsive: true,
+           maintainAspectRatio: true
+     };
+
+     barChartOptions.datasetFill = false;
+     barChart.Bar(barChartData,barChartOptions);
+
+      },
+    });
+
+
+
+
+})
+
+});
+</script>
+
+
+
+
+{% endblock %}

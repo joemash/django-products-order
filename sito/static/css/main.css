@@ -1,0 +1,228 @@
+/*!
+ * Start Bootstrap - Shop Homepage HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/**START OF loading Spinner**/
+.dialog-background{
+    background: none repeat scroll 0 0 green;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+.dialog-loading-wrapper {
+    background: none repeat scroll 0 0 green;
+    border: 0 none;
+    height: 100px;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    position: fixed;
+    top: 50%;
+    width: 100px;
+    z-index: 9999999;
+}
+.dialog-loading-icon {
+    background-color: #FFFFFF !important;
+    border-radius: 13px;
+    display: block;
+    height: 100px;
+    line-height: 100px;
+    margin: 0;
+    padding: 1px;
+    text-align: center;
+    width: 100px;
+}
+
+
+/**START OF ORDER ENTRY TABLE**/
+#datagridInput {
+	border: none;
+	width: 100%;
+	height: 100%;
+	font-family:Arial;
+	font: Arial;
+	font-size: 14px;
+	color: #444;
+
+}
+#productList tr td input:not([name="purchase_description"]) {
+	text-align: right;
+}
+#productList tr td input:[name="purchase_description"] {
+ padding-left:4px;
+}
+#datagridInput:disabled, #datagridInput:active, #datagridInput:hover, #datagridInput:focus {
+	background-color: #fff;
+	border: none;
+	width: 100%;
+}
+
+
+button[type="submit"] {
+	border: thin solid #fff;
+	background-color: green;
+	height: 25px;
+  border-radius:4px;
+  color:#fff;
+	font-size: 14px;
+}
+button[type="submit"]:hover {
+	background-color:green;
+	background: -webkit-linear-gradient(top, green,green 100%);
+	background: -moz-linear-gradient(top,green,green 100%);
+	background: -o-linear-gradient(top,green,green 100%);
+	background: linear-gradient(to bottom,green,green 100%);
+	background-repeat: repeat-x;
+	border: thin solid green;
+	border-radius: 4px;
+	height: 25px;
+}
+#message {
+	height: 15px;
+	padding: 0px;
+	margin: 0px;
+}
+#ui-datepicker-div {
+	font-size: 14px;
+}
+
+table {
+	border: 1px solid green;
+	border-collapse: collapse;
+}
+#mainTable, #productList, #totalSummary {
+	border: none;
+	border-collapse: collapse;
+}
+#totalSummary input{
+	border:1px inset green;
+	background-color: transparent;
+	width:100%}
+
+#totalSummary span{
+	font-variant:small-caps;}
+
+#totalSummary td {
+	border-left: none;
+	border-right: none;
+	padding: 5px 5px 5px 5px;
+
+}
+
+
+#totalSummary td:first-child {
+	border-left: 1px inset #95B8E7;
+}
+#totalSummary td:last-child {
+	border-right: 1px inset #95B8E7;
+}
+#totalSummary tr:first-child {
+	border: 1px inset #95B8E7;
+}
+#totalSummary tr:last-child {
+	border-bottom: 1px inset #95B8E7;
+}
+#mainTable td, #productList td {
+	border-left: none;
+	border-right: none;
+}
+
+#productList td label {
+	display: none;
+}
+
+#mainTable td:first-child, #productList td:first-child {
+	border-left: thin solid green;
+}
+#productList td:first-child {
+
+	background-repeat: repeat-x;
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=green, endColorstr=#efefef, GradientType=0);
+
+}
+
+#mainTable td:nth-child(2) {
+	border-right: thin solid green;
+}
+#mainTable td:last-child, #productList td:last-child {
+	border-right: thin solid green;
+}
+#mainTable tr:last-child, #productList tr:last-child {
+	border-bottom: thin solid green;
+}
+#productList tr:nth-child(2), #productList tr:nth-child(2):hover {
+	height: 25px;
+}
+#productList tr:hover {
+	background: #FFF;
+	color: #000000;
+	cursor: default;
+}
+.selected {
+	background: #FFE9D2;
+	color: #000000;
+	cursor: default;
+}
+#mainTable tr th, #productList tr th {
+	border: thin solid green;
+	height: 25px;
+	font-weight: bold;
+	color: #000;
+	line-height: 16px;
+	padding-left: 5px;
+}
+#productList td {
+	border-width: 0 1px 1px 0;
+	border-style: dotted;
+	margin: 0;
+	border-color: green;
+	min-height: 15px;
+
+}
+#productList {
+	background-color: #FFF;
+}
+#mainTable tr td {
+	height: 25px;
+	padding: 4px;
+
+}
+input:not([id="datagridInput"]):not([id="summary"]):not([type="checkbox"]), #select {
+	font-family: Arial;
+	font: Arial;
+	color: #000;
+	width: 95.5%;
+	height: 24px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: 1px solid #fff;
+	-webkit-appearance: textfield;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing : content-box;
+	box-sizing : content-box;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0px 1px 4px 0px #000 inset;
+	-moz-box-shadow: 0px 1px 4px 0px #000 inset;
+	box-shadow: 0px 1px 4px 0px #000 inset;
+}
+input:not([id="datagridInput"]):active, input:not([id="datagridInput"]):focus {
+	border: 1px solid #fff;
+	background: #FFF;
+	-webkit-box-shadow: 0px 1px 4px 0px #FFF inset;
+	-moz-box-shadow: 0px 1px 4px 0px #FFF inset;
+	box-shadow: 0px 1px 4px 0px #FFF inset;
+}
+label {
+	padding-left: 2px;
+}
+
+/**END OF orderentry table**/

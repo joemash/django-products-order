@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+
+    <!-- Intro Content -->
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-responsive" src="{% static 'images/chips1.jpg' %}" alt="">
+        </div>
+
+        <div class="col-md-6">
+            <h4><b>A Few Words About Us</b></h4>
+                {% for about in about %}
+                <p>
+                  {{about.text|safe}}
+                </p>
+                {% endfor %}
+           <hr>
+        </div>
+    </div>
+    <!-- /.row -->
+
+
+  </div>  <!-- /.container -->
+
+{% endblock %}

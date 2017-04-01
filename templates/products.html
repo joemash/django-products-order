@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="container" id="allproducts">
+  <div class="jumbotron">
+
+
+<div class="row">
+
+          {% for product in allproducts %}
+
+           <div class="col-xs-4 img-portfolio">
+
+              <div class="thumbnail">
+                <!--
+                {% if product.get_product_image %}
+                 <img class="img-responsive img-hover" src="/static/{{product.get_product_image }}" alt="Product Image">
+                 {% endif %}
+               -->
+                <div class="caption text-center">
+                   <b><a style="color:#000;" href="#" id="allproducts_name">{{ product.name }}</a></b>
+                </div>
+
+              </div>
+
+           </div>
+           {% endfor %}
+       </div>
+       <hr>
+
+       <!-- Pager -->
+       <div class="row">
+           <ul class="pager">
+               <li class="previous">
+                   {% if allproducts.has_previous %}
+                 <a href="?page={{allproducts.previous_page_number }}" id="pagerbtns">&larr; Previous</a>
+                  {% endif %}
+
+               </li>
+               <li class="next">
+                 {% if allproducts.has_next %}
+                 <a href="?page={{allproducts.next_page_number }}" id="pagerbtns">Next &rarr;</a>
+                 {% endif %}
+               </li>
+           </ul>
+       </div>
+
+
+  </div>
+  </div>
+{% endblock %}

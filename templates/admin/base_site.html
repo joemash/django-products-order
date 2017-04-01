@@ -1,0 +1,29 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | Gaea Foods{% endblock %}
+
+{% block extrastyle %}
+<style>
+#header{ background: green; color:#FFF;}
+#branding h1, #branding h1 a:link, #branding h1 a:visited{color:#FFF;}
+#login-form .submit-row input{width:100px;background: green; color:#fff;font-size:12px;}
+.colMS h1{color: green;}
+.module h2, .module caption, .inline-group h2{font-size:16px;color:green;}
+.dashboard .module table th a{font-size:14px;color:green;}
+#content-main .section{color:#FFF;}
+#content-main caption{background: green;}
+#content-related .module h2{color:#fff;background: green;}
+#content-related h3{color: green;}
+.addlink a{color: green;}
+div.breadcrumbs{background:green;color:#fff;}
+tbody tr{color:#000;}
+.result_list{color:#000;}
+</style>
+
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Gaea Foods </a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

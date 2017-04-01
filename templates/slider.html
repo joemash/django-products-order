@@ -1,0 +1,18 @@
+{% load static %}
+            <div class="slider-area" style="margin-bottom:50px;">
+
+                <div class="slider">
+                       <div id="owl-demo" class="owl-carousel owl-theme">
+
+                          <div class="item"><!--<h2 class="text-center" style="color:#000;">QUALITY MATTERS</h2>--><img src="{% static 'images/chips1.jpg' %}" alt="img"></div>
+                          <div class="item"><!--<h2>DELIVERED TO YOU</h2>--><img src="{% static 'images/chips2.jpg' %}" alt="img"></div>
+                          <div class="item"><!--<h2 style="color:#000;">HOTELS AND RESTAURANTS</h2>--><img src="{% static 'images/chips3.jpg' %}" alt="img"></div>
+                          <div class="item"><!--<h2>ORDER ONLINE</h2>--><img src="{% static 'images/oranges.jpg' %}" alt="img"></div>
+                         </div><!--owl carousel-->
+
+
+                    </div><!--slider-->
+
+            </div><!--container-->
+
+<a class="text-center placeorder" href="{% url 'accounts:login_view' %}">PLACE AN ORDER</a>

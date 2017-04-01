@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load humanize %}
+<html>
+<body>
+
+<h3>Dear {{ user }}</h3></br>
+
+<p>Thanks for choosing to shop with Gaea Foods,</br> Fresh and healthy cut chips!
+</br></br>
+Your Order Number {{order_number}} has been received and is awaiting confirmation.</p>
+</br></br></br></br></br></br>
+
+<h3>You ordered for</h3></br></br></br></br>
+<table  style="width: 100%;border-collapse: collapse;">
+  <tr>
+    <th style="height:20px;border:1px solid black;background-color: #4CAF50;color: white;">Item</th>
+    <th style="height:20px;border:1px solid black;background-color: #4CAF50;color: white;">Quantity</th>
+    <th style="height:20px;border:1px solid black;background-color: #4CAF50;color: white;">Price</th>
+   <th style="height:20px;border:1px solid black;background-color: #4CAF50;color: white;"> Total(Ksh)</th>
+  </tr>
+{% for item in order_items %}
+	  <tr>
+
+
+	    <td style="padding:5px;text-align:right;border-bottom: 1px solid #ddd;">{{item.product}}</td>
+      <td style="padding:5px;text-align:right;border-bottom: 1px solid #ddd;">{{item.quantity}}</td>
+      <td style="padding:5px;text-align:right;border-bottom: 1px solid #ddd;">{{item.price}}</td>
+      <td style="padding:8px;text-align:right;border-bottom: 1px solid #ddd;">{{item.sub_total|intcomma}}</td>
+
+
+
+	  </tr>
+{% endfor %}
+
+</table>
+
+
+	<h4 style="text-align:right;">Ksh {{total |intcomma }}</h4>
+
+
+
+
+<p>Feedback? General comments? Send an email to info@gaeafoods.com.</p>
+</body>
+</html>

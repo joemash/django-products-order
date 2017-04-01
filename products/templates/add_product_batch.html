@@ -1,0 +1,166 @@
+{% extends 'index.html' %}
+{% load bootstrap %}
+
+{% block tablecontent %}
+
+
+{% load static %}
+
+
+<form name="newpurchase" class="orderform" action="" method="post" style="width:auto;">
+		{% csrf_token %}
+
+			<table id="productList" style="width:100%;">
+					<tr>
+						<th colspan="9" align="left">Product Batch Entry</th>
+					</tr>
+					<tr id="head">
+						<td width="25" align="right"></td>
+						<td width="150" align="center">Name</td>
+
+
+						<td width="200" align="center">Description</td>
+						<td width="80" align="center">Price</td>
+
+					</tr>
+
+					<tr class="lineitems">
+						<td align="center"><label id="arow" data-icon="&#x45;"></label></td>
+						<td ><input name="product_name" type="text" class="product_name"  id="datagridInput" required></td>
+						<td><input name="description" class="description"  type="text" id="datagridInput" required ></td>
+            <td><input name="price" class="price" required type="Number" id="datagridInput" min="1" ></td>
+					<!--	<td><input name="tax"  class="tax" type="text" id="datagridInput" required ></td>-->
+
+
+						<td><input type="button" class="addProduct" value="AddMore"  id="datagridInput"/></td>
+						<td><input type="button" class="delProduct" value="Remove" id="datagridInput"/></td>
+
+					</tr>
+				</table>
+
+
+	<button type="submit" style="margin:15px 0px 0px 300px ;height:35px;"  name="button">Process</button>
+</form>
+
+
+
+ <script type="text/javascript">
+ 			$(document).ready(function() {
+
+ 						//Adds a new row on click
+						$(document).on('click', '.addProduct',function(){
+								//
+								//
+							 price_val = $(this).closest('tr').find('input.price').val();
+							 product_val = $(this).closest('tr').find('input.product_name').val();
+               description_val	= $(this).closest('tr').find('input.description').val();
+
+               if (price_val && product_val && description_val !=='') {
+									 var ele = $(this).closest('tr').clone();
+									 ele.find('input[type=Number]').val('');
+                   ele.find('input[type=text]').val('');
+									 $(this).closest('tr').after(ele);
+
+								}
+								else{
+									toastr.warning('Sorry cannot add empty rows')
+									//toastr.clear()
+									$(this).closest('tr').find('input.product_name').focus();
+								}
+
+						});
+						//Deletes an exixting row on click
+						$(document).on('click', '.delProduct',function(){
+              price_val = $(this).closest('tr').find('input.price').val();
+              product_val = $(this).closest('tr').find('input.product_name').val();
+              description_val	= $(this).closest('tr').find('input.description').val();
+
+							if(price_val ==='' | product_val ==='' | description_val === '') {
+								 toastr.warning('Sorry cannot remove empty rows')
+
+							  }
+                else{
+                  $(this).closest('tr').remove();
+
+                }
+						});
+
+					var tableitems = [];
+
+				 //Self invoking Cart function object
+					 var lineItems = (function() {
+
+					 	 var cart = [];
+
+					 	 function Items(product_name,price,description) {
+					        this.product_name = product_name;
+					        this.price = price;
+					        this.description = description;
+				         };
+
+				         var obj = {};
+
+				         obj.addItemsToCart=function(product_name,price,description){
+				         	 var item = new Items(product_name,price,description);
+      						 cart.push(item);
+      						 return cart
+				         };
+
+ 						obj.removeItemsFromCart=function(){
+
+
+ 						};
+
+				      return obj
+
+					  })();
+
+				//Code to handle processing of form data
+				    $(document).on('submit', 'form.orderform', function(e){
+				        $('#productList tr.lineitems').each(function() {
+				             price = $(this).find('input.price').val();
+				             product_name = $(this).find('input.product_name').val();
+                     description = $(this).find('input.description').val();
+                     tableitems = lineItems.addItemsToCart(product_name,price,description)
+				        });
+
+  		          var obj = JSON.stringify(tableitems)
+  	         		 var request = $.ajax({
+  		             type: "POST",
+  		             url: "/productbatchentry/",
+  		             data :{productItems:obj},
+  	                });
+
+  		         	 request.done(function(response) {
+  		              //alert('Successfully placed the order,the order number is ' + orderNo)
+  		              if (response.error) {
+                      toastr.clear()
+                      toastr.warning('Errors! ' + response.error)
+  		              }
+                    else{
+                      window.location.href=response.url;
+    		              return false;
+                    }
+
+                     });
+
+
+  		           request.fail(function(jqXHR,textStatus) {
+  								toastr.clear()
+  		            toastr.warning('An error has occured ' + textStatus)
+  		           });
+
+				        return false;
+
+				      });//end of form.productbatchform
+
+ 			})
+ </script>
+
+
+
+
+
+
+
+{% endblock %}

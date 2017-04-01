@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load bootstrap %}
+{% block content %}
+
+ <div class="container" >
+
+   <div class="jumbotron" >
+
+     {% if messages %}
+      
+       {% for message in messages %}
+       <p  {% if message.tags %} class="alert alert-success" {% endif %}>
+          {{ message }} </p>
+
+           {% endfor %}
+
+      {% endif %}
+
+
+
+
+    </div>
+  </div>
+
+{% endblock%}

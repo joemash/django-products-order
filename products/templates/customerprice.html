@@ -1,0 +1,93 @@
+{% extends 'index.html' %}
+
+{% load humanize %}
+{% block tablecontent %}
+
+      <style rel="stylesheet">
+           #mytable thead th {
+            background-color: green;
+            color:#fff;
+            border:thin solid #fff;
+
+          }
+
+          #mytable{
+             border: ;
+          }
+
+          .addcustomer{
+           background-color:green;
+           border: 1px solid #fff;
+           border-radius: 10px;
+           color: #fff;
+           padding: 5px 10px;
+           padding-bottom:1px;
+          }
+
+          .addcustomer:hover {
+               background: orange;
+               color: #fff;
+               text-decoration: none;
+          }
+
+      </style>
+
+        <div class="col-md-12">
+
+         <a href="{% url 'addcustomerprice' %}" class="addcustomer" >
+           Add Customer Price</a>
+
+           <a href="{% url 'customer_price_batchentry' %}" class="addcustomer" >
+             Customer Price Batches</a>
+                 
+        <div class="table-responsive">
+
+
+              <table id="mytable" style="width:100%;" class="table table-bordered table-striped">
+
+                   <thead>
+                      <th>Name</th>
+                       <th>Product</th>
+                       <th>Price</th>
+                       <th>Action</th>
+                   </thead>
+    <tbody>
+        {% for customerprice in customerprices %}
+            <tr>
+              <td>{{customerprice.name.company}}</td>
+                <td>{{customerprice.product}}</td>
+              <td>{{customerprice.price}}</td>
+                <td><a  href="{% url 'editcustomerprice' pk=customerprice.pk %}">Edit</a></td>
+            </tr>
+       {% endfor %}
+
+    </tbody>
+
+</table>
+
+<div class="clearfix"></div>
+{% if is_paginated %}
+    <ul class="pager pull-right" style="margin-top:10px;">
+
+         {% if page_obj.has_previous %}
+              <li><a style="background:green;color:#fff;" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+          {% endif %}
+             <span class="page-current">
+                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+             </span>
+
+             {% if page_obj.has_next %}
+           <li><a style="background:green;color:#fff;" href="?page={{ page_obj.next_page_number }}">next</a></li>
+             {% endif %}
+
+          </ul>
+         {% endif %}
+            </div>
+
+        </div>
+
+
+
+
+
+    {% endblock %}

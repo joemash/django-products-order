@@ -1,0 +1,97 @@
+
+{% extends 'index.html' %}
+{% load humanize %}
+{% block tablecontent %}
+
+      <style rel="stylesheet">
+           #mytable thead th {
+            background-color: green;
+            color:#fff;
+            border:thin solid #fff;
+          }
+
+          #mytable{
+             border: ;
+          }
+      </style>
+
+        <div class="col-md-12">
+
+
+        <div class="table-responsive">
+
+
+              <table id="mytable" style="width:100%;" class="table table-bordered table-striped">
+
+                   <thead>
+
+                   <th>Date</th>
+                  {% if request.user.is_staff %}
+                    <th>Customer</th>
+                    {% endif %}
+                    <th>Reference</th>
+                     <th>Amount</th>
+                     <th>Status</th>
+
+
+                  <th> {% if request.user.is_staff %} View {%else%} Pay 	{% endif %}</th>
+
+		                  <th>Pdf</th>
+                   </thead>
+    <tbody>
+      {% for order_item in user_orders %}
+
+            <tr>
+            <td>{{order_item.created_on|date}}</td>
+
+             {% if request.user.is_staff %}
+             <td>{{order_item.customer.company}}</td>
+                {% endif %}
+
+            <td>{{order_item.order_number}}</td>
+            <td>Kshs {{order_item.total|intcomma}}</td>
+            <td>{{order_item.payment_status}}</td>
+
+
+            <td><a href="{% url 'orders:single_order' order_id=order_item.id  %}" {% if order_item.total == 0.00  %}style="pointer-events: none;background:#fff;"{% else %}style="background:green;" {% endif%} class="btn btn-primary btn-xs " >
+		            {% if not request.user.is_staff %} Pay {%else%}View{% endif %}</a> </td>
+
+         			 <td><a href="{% url 'orders:pdf_view' order_id=order_item.id  %}" style="background:green;"  class="btn btn-primary btn-xs " >View</a> </td>
+
+            </tr>
+
+          {% endfor  %}
+
+
+
+
+    </tbody>
+
+</table>
+
+<div class="clearfix"></div>
+{% if is_paginated %}
+    <ul class="pager pull-right" style="margin-top:10px;">
+
+         {% if page_obj.has_previous %}
+              <li><a style="background:green;color:#fff;" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+          {% endif %}
+             <span class="page-current">
+                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+             </span>
+
+             {% if page_obj.has_next %}
+           <li><a style="background:green;color:#fff;" href="?page={{ page_obj.next_page_number }}">next</a></li>
+             {% endif %}
+
+          </ul>
+         {% endif %}
+            </div>
+
+        </div>
+
+
+
+
+
+    {% endblock %}

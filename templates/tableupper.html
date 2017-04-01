@@ -1,0 +1,47 @@
+
+
+<tr>
+  <td><table align="center" id="mainTable" style="width: 100%;">
+      <tr>
+        <th colspan="2" align="left">Customer Detail</th>
+        <th colspan="2" align="left">Payment/Delivery Details</th>
+      </tr>
+      <tr>
+        <td width="140"><label for="supplier_name">Customer Email:</label></td>
+        <td width="270"><input type="text" name="customer_name" value="{{customer}}" id="customer_name" readonly/></td>
+        <td width="140"><label for="creditAs_on">Delivery Date:</label></td>
+        <td width="270"><input type="calendar" placeholder ="select date you want item delivered" class="deliveryDate"  id="datepicker" readonly/></td>
+      </tr>
+      <tr>
+        <td><label for="address_line1">Physical Address:</label></td>
+        <td><input type="text" value="{{customer.address}}" name="address_line1"  id="address_line1" class="address_line" readonly/></td>
+
+      </tr>
+      <tr>
+        <td><label for="customer_phone">Customer Phone:</label></td>
+        <td><input type="text" name="supplier_phone"  class="customer_phone" value="{{customer.phone_number}}"/></td>
+        <td><label for="payment_mode">Payment Mode:</label></td>
+        <td><select name="payment_mode" id="select" class="payments" required>
+            {% for paymentmethod in  payment_methods %}
+            <option value="{{ paymentmethod.code }}">{{paymentmethod.name}}</option>
+            {% endfor %}
+          </select></td>
+      </tr>
+
+      <tr>
+        <td><label for="contact_person">Contact Person:</label></td>
+        <td><input type="text" name="contact_person"  class="contact_person" value="{{customer.first_name}}" /></td>
+      </tr>
+
+    </table></td>
+</tr>
+
+
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+        dateFormat: 'yy-mm-dd',
+    });
+
+  } );
+  </script>

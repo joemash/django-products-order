@@ -1,0 +1,208 @@
+{% extends 'index.html' %}
+{% load humanize %}
+{% block tablecontent %}
+<style>
+
+	#theadRow > th > span {margin-right:2em;display:block;}
+
+	.hideElement {
+		display:none;
+	}
+
+	input.datepicker {
+		width:7em;
+	}
+
+	div.dateControlBlock {
+		float:right;
+	}
+
+	#endBlock {
+		height:5ex;
+	}
+
+</style>
+<div style="float:right;margin-bottom:10px;">
+  <i class="fa fa-calendar" >
+
+  </i><button  type="button" id="date_range" class="btn btn-warning btn-sm">Date Filter</button>
+</div>
+
+
+<table id="orderTable" class="ordertable" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+
+                <th>Order Number</th>
+                <th>Payment Status</th>
+                <th>Amount</th>
+
+
+            </tr>
+        </thead>
+        <tfoot>
+         <tr>
+             <th></th>
+
+             <th></th>
+             <th></th>
+             <th ></th>
+
+         </tr>
+     </tfoot>
+
+    </table>
+
+
+
+
+<script>
+
+
+
+
+  $(document).ready(function() {
+
+    var table =  $('#orderTable').DataTable( {
+           "processing": true,
+           "ajax":{
+                "processing": true,
+                "url": "{% url 'orders:order_reports' %}",
+                "dataSrc": "",
+								
+           },
+
+           "columns": [
+                    { "data": "fields.created_on" },
+
+                    { "data": "fields.order_number" },
+                    { "data": "fields.payment_status" },
+                    {
+                      "data": "fields.total",
+                      render: $.fn.dataTable.render.number( ',', '.', 2, 'Ksh ' ),
+                    },
+
+
+                ],
+
+
+
+             dom: 'Bfrtip',
+              buttons: [
+                  'excel', 'pdf','print'
+              ],
+          // Display sum on every page and grand total
+              "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        // Total over all pages
+                        total = api
+                            .column(3)
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            'Ksh '+pageTotal.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                        );
+
+                        $( api.column( 0 ).footer() ).html(
+                        ' Grand Total' + ' Ksh '+ total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                        );
+
+
+
+                     }//End of footer callback
+
+          } );//END of the data table
+
+
+// Date range script - Start of the sscript
+$("#date_range").daterangepicker({
+	autoUpdateInput: false,
+	locale: {
+		"cancelLabel": "Clear",
+        }
+});
+
+$("#date_range").on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+	  table.draw();
+});
+
+$("#date_range").on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+	  table.draw();
+});
+// Date range script - END of the script
+
+$.fn.dataTableExt.afnFiltering.push(
+      function( oSettings, aData, iDataIndex ) {
+
+      	var grab_daterange = $("#date_range").val();
+      	var give_results_daterange = grab_daterange.split(" to ");
+          var filterstart = give_results_daterange[0];
+          var filterend = give_results_daterange[1];
+          var iStartDateCol = 4; //using column 2 in this instance
+          var iEndDateCol = 4;
+          var tabledatestart = aData[iStartDateCol];
+          var tabledateend= aData[iEndDateCol];
+
+          if ( !filterstart && !filterend )
+          {
+              return true;
+          }
+          else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && filterend === "")
+          {
+              return true;
+          }
+          else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isAfter(tabledatestart)) && filterstart === "")
+          {
+              return true;
+          }
+          else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && (moment(filterend).isSame(tabledateend) || moment(filterend).isAfter(tabledateend)))
+          {
+              return true;
+          }
+          return false;
+}
+);
+
+
+
+
+
+
+
+
+
+    } );
+
+
+
+</script>
+
+
+
+
+
+{% endblock %}

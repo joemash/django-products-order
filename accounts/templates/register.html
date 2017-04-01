@@ -1,0 +1,168 @@
+{% extends 'index.html' %}
+{% load bootstrap %}
+{% block content %}
+
+
+<script type="text/javascript">
+      $(document).ready(function() {
+            $(document).on('submit','form.registerfrm',function(e) {
+                 e.preventDefault();
+                 var that = $(this);
+                 var data={};
+                 that.find('input').each(function(index,value) {
+                       var that = $(this);
+                       name= that.attr('name');
+                       value = that.val();
+                       data[name]=value;
+
+                  });
+
+                  var details = JSON.stringify(data);
+                  $.ajax({
+                     type:'POST',
+                     url:'/accounts/register/',
+                     data:{personalDetails:details},
+                    success:function(response) {
+                        alert('Registration Successfully')
+                    },
+
+
+                  })
+
+                  return false;
+            });
+      });
+</script>
+   <form method="post" action="" style="width:350px;margin:5px 100px 200px 10px;">
+      		<input type='hidden' name='csrfmiddlewaretoken' value='iwGcXNLWWGWzXShEBMc5TpbMPMUPEJKs' />
+          {% csrf_token %}
+
+   <div class="container" >
+     {% if messages %}
+
+       {% for message in messages %}
+       <p  {% if message.tags %} class="alert alert-success" {% endif %}>
+          {{ message }} </p>
+
+           {% endfor %}
+
+      {% endif %}
+
+     <h4 style="margin-left:280px;">Customer Registration Form or <a href="{% url 'accounts:login_view' %}" style="color:green;">Login</a></h4>
+   	<div class="col-md-6" >
+
+
+   			<div class="form-group">
+
+   						{{form.email|bootstrap}}
+
+
+   			</div>
+
+
+
+
+   			<div class="form-group">
+
+   					{{form.first_name|bootstrap}}
+
+
+   			</div>
+
+
+
+
+   			<div class="form-group">
+
+   						{{form.last_name|bootstrap}}
+
+
+   			</div>
+
+
+
+
+   			<div class="form-group">
+
+   					{{form.company|bootstrap}}
+
+
+   			</div>
+
+   </div> <!--end of col-6 row-->
+
+
+
+   <div class="col-md-6" >
+
+   <div class="form-group">
+
+   			{{form.address|bootstrap}}
+
+
+   </div>
+
+
+
+
+   <div class="form-group">
+   			{{form.phone_number|bootstrap}}
+
+
+
+   </div>
+
+
+
+
+   <div class="form-group">
+
+   			{{form.password|bootstrap}}
+
+
+
+
+
+
+   </div>
+
+
+
+
+   <div class="form-group">
+
+
+   			{{form.confirm_password|bootstrap}}
+
+
+
+
+
+
+           </div>
+
+   </div>
+
+
+   <div class="container" >
+     <div class="row">
+       <div class="col-md-6">
+
+       </div>
+       <div class="col-md-6">
+         <button type="submit" class="btn btn-group-lg" style="width:100px;height:40px;">Register</button>
+         <!--<input type="submit" id="login" value="Register">-->
+       </div>
+        </div>
+   </div>
+
+
+
+
+   </div> <!--end of col-6 row-->
+
+   </div>   <!--End of company-->
+      	</form>
+
+
+{% endblock content %}
