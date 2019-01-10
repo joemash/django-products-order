@@ -25,17 +25,17 @@ SECRET_KEY = ')83!mdp1+jwksu#8hwdrk&l=1a$7#r2p4d^!!kf8p9-d)7ne_%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['josephat.webfactional.com']
+ALLOWED_HOSTS = ['']
 
-DEFAULT_FROM_EMAIL = 'Daniel@gaeafoods.com'
-SERVER_EMAIL = 'Daniel@gaeafoods.com'
+DEFAULT_FROM_EMAIL = '<YourDefaultemail>'
+SERVER_EMAIL = '<EMAILADDRESS>'
 # Application definition
 
 EMAIL_USE_TLS =True
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.angryhosting.com'  #smtp.gmail.com
-EMAIL_HOST_USER ='Daniel@gaeafoods.com'#
-EMAIL_HOST_PASSWORD = 'danielgaea1'
+EMAIL_HOST = '<HOST>'  #smtp.gmail.com
+EMAIL_HOST_USER ='<HOSTUSER>'#
+EMAIL_HOST_PASSWORD = '<Password>'
 EMAIL_PORT =587
 
 
@@ -198,7 +198,7 @@ LOGIN_URL = '/accounts/login/'
 
 MEDIA_URL= '/media/'
 
-MEDIA_ROOT = '/home/mashaa/Documents/DJANGOAPPS/gaeafoods/sito'
+MEDIA_ROOT = '<SETUPACCORDINGLY>'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 

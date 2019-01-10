@@ -1,10 +1,26 @@
-# django-ordering-system
+# django-products-order
 
-Django Python Application with the following features
-1.Intergrates with Pesapal Api to enable posting of payments.
-2.Email customer and admin orders that have been made.
-3.Exports reports to excel and pdf.
-4. User authentication
-5.Add Edit,Delete,Update Products
-6.Update Customer Payments
-7.Admin and customer dashboard
+## Features
+- __Payments__: Intergrates with [Pesapal](http://developer.pesapal.com/) Api to enable posting of payments.
+- __Notifications__: Emails to customer and admin for orders that have been made.
+- __Reports__: Exports reports to excel and pdf.
+- __Security__: Role based user authentication with admin and customer dashboardS.
+- __Data Persistence__: CRUD functionality on Products and Customers.
+- __Reconciliation__: Allocate Customer Payments.
+
+## Installation
+
+  `pip install requirements.txt`
+
+## Demo
+
+Want to see django-products-order in action?
+
+[Login](http://josephat.webfactional.com/accounts/login/)
+
+## License
+
+Disclaimer: Everything you see here is open and free to use as long as you comply with the [license](https://github.com/joemash/django-products-order/blob/master/LICENSE). 
+
+#### Crafted with ❤️ by Josephat Macharia
+josemash4@gmail.com
