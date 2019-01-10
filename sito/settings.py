@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['']
 
-DEFAULT_FROM_EMAIL = '<YourDefaultemail>'
+DEFAULT_FROM_EMAIL = '<DEFAULTEMAILADDRESS>'
 SERVER_EMAIL = '<EMAILADDRESS>'
 # Application definition
 

@@ -4,7 +4,7 @@
 - __Payments__: Intergrates with [Pesapal](http://developer.pesapal.com/) Api to enable posting of payments.
 - __Notifications__: Emails to customer and admin for orders that have been made.
 - __Reports__: Exports reports to excel and pdf.
-- __Security__: Role based user authentication with admin and customer dashboardS.
+- __Security__: Role based user authentication with admin and customer dashboard.
 - __Data Persistence__: CRUD functionality on Products and Customers.
 - __Reconciliation__: Allocate Customer Payments.
 
